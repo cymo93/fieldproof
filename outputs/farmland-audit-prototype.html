@@ -1,0 +1,1488 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FieldProof Farmland Audit Prototype</title>
+  <style>
+    :root {
+      --ink: #17211f;
+      --muted: #65706c;
+      --line: #d9e1dc;
+      --surface: #ffffff;
+      --soft: #f4f7f2;
+      --field: #3d7350;
+      --water: #2e7f8f;
+      --earth: #9b6a3d;
+      --gold: #c7932c;
+      --danger: #b74d3e;
+      --blue: #315c96;
+      --shadow: 0 18px 50px rgba(28, 43, 38, .14);
+      --radius: 8px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #edf2ed;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #10231d;
+      color: #eaf4ee;
+      padding: 24px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .mark {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.12), transparent),
+        repeating-linear-gradient(90deg, #7cb47f 0 7px, #d0b169 7px 14px);
+      border: 1px solid rgba(255,255,255,.22);
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .brand span {
+      color: #adc2b9;
+      font-size: 12px;
+    }
+
+    .navlabel {
+      color: #adc2b9;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin: 24px 0 10px;
+    }
+
+    .nav button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #eaf4ee;
+      background: transparent;
+      border: 1px solid transparent;
+      padding: 11px 10px;
+      border-radius: var(--radius);
+      text-align: left;
+      margin-bottom: 4px;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      border-color: rgba(255,255,255,.2);
+      background: rgba(255,255,255,.09);
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: inline-grid;
+      place-items: center;
+      color: currentColor;
+      flex: 0 0 auto;
+    }
+
+    .sidebar-card {
+      margin-top: 24px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: rgba(255,255,255,.07);
+    }
+
+    .sidebar-card p {
+      margin: 6px 0 0;
+      color: #c3d3cb;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+
+    .title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .status-strip {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .pill.good {
+      color: #27623d;
+      background: #eaf6ed;
+      border-color: #c8e7d0;
+    }
+
+    .pill.warn {
+      color: #826017;
+      background: #fff5d8;
+      border-color: #ead798;
+    }
+
+    .pill.bad {
+      color: #8d352b;
+      background: #fae8e5;
+      border-color: #efc6be;
+    }
+
+    .view {
+      display: none;
+      animation: appear .18s ease-out;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid.two {
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 0 rgba(17, 34, 29, .04);
+      min-width: 0;
+    }
+
+    .panel-head {
+      padding: 16px 16px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .panel-head h2,
+    .panel-head h3 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    .panel-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .phone-wrap {
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+
+    .phone {
+      width: min(390px, 100%);
+      min-height: 720px;
+      background: #f9fbf8;
+      border: 10px solid #18201d;
+      border-radius: 34px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-top {
+      height: 40px;
+      background: #18201d;
+      color: #dbe9df;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      font-size: 12px;
+    }
+
+    .phone-screen {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .phone-screen.active {
+      display: flex;
+    }
+
+    .app-head {
+      padding: 16px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .app-head h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .app-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .app-body {
+      padding: 14px;
+      overflow: auto;
+      flex: 1;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .metric {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 16px;
+    }
+
+    .task {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .task h3 {
+      margin: 0 0 7px;
+      font-size: 15px;
+    }
+
+    .task p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .btn {
+      border: 1px solid #244b38;
+      color: #fff;
+      background: #244b38;
+      border-radius: var(--radius);
+      min-height: 40px;
+      padding: 9px 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: #173627;
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--ink);
+      border-color: var(--line);
+    }
+
+    .btn.secondary:hover {
+      background: #f5f7f5;
+    }
+
+    .btn.warn {
+      background: var(--gold);
+      border-color: #a77921;
+      color: #1f1a11;
+    }
+
+    .btn.bad {
+      background: var(--danger);
+      border-color: #9c392e;
+    }
+
+    .btn.full {
+      width: 100%;
+    }
+
+    .map {
+      position: relative;
+      overflow: hidden;
+      min-height: 340px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.45) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.45) 1px, transparent 1px),
+        #cbdcbf;
+      background-size: 42px 42px;
+      border-radius: var(--radius);
+      border: 1px solid #b8c7b3;
+    }
+
+    .map.large {
+      min-height: 520px;
+    }
+
+    .plot {
+      position: absolute;
+      border: 2px solid rgba(37, 74, 55, .75);
+      background: rgba(73, 128, 78, .23);
+      transform: rotate(-8deg);
+    }
+
+    .plot.one {
+      width: 34%;
+      height: 26%;
+      left: 15%;
+      top: 20%;
+    }
+
+    .plot.two {
+      width: 24%;
+      height: 20%;
+      left: 54%;
+      top: 16%;
+      transform: rotate(9deg);
+    }
+
+    .plot.three {
+      width: 28%;
+      height: 24%;
+      left: 42%;
+      top: 58%;
+      transform: rotate(-2deg);
+    }
+
+    .river {
+      position: absolute;
+      left: -8%;
+      top: 46%;
+      width: 118%;
+      height: 42px;
+      background: rgba(46, 127, 143, .62);
+      transform: rotate(-11deg);
+      box-shadow: 0 0 0 10px rgba(46,127,143,.12);
+    }
+
+    .pin {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      background: var(--danger);
+      border: 2px solid #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,.2);
+    }
+
+    .pin::after {
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #fff;
+      left: 4px;
+      top: 4px;
+    }
+
+    .pin.a { left: 36%; top: 47%; }
+    .pin.b { left: 62%; top: 28%; background: var(--field); }
+    .pin.c { left: 50%; top: 68%; background: var(--gold); }
+
+    .map-label {
+      position: absolute;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      box-shadow: 0 8px 25px rgba(27, 50, 42, .15);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .map-label strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .map-label.one { left: 8%; top: 8%; }
+    .map-label.two { right: 6%; bottom: 8%; }
+
+    .checklist {
+      display: grid;
+      gap: 8px;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .box {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: #fff;
+      flex: 0 0 auto;
+    }
+
+    .check-item.done .box {
+      background: var(--field);
+      border-color: var(--field);
+    }
+
+    .check-item strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .check-item span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .camera {
+      min-height: 320px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #111;
+      background:
+        linear-gradient(rgba(13, 20, 17, .14), rgba(13, 20, 17, .14)),
+        repeating-linear-gradient(110deg, #5f7d45 0 42px, #775e36 42px 76px, #8fa66b 76px 118px);
+    }
+
+    .camera::before,
+    .camera::after {
+      content: "";
+      position: absolute;
+      border: 2px solid rgba(255,255,255,.78);
+      width: 52px;
+      height: 52px;
+    }
+
+    .camera::before {
+      left: 18px;
+      top: 18px;
+      border-right: 0;
+      border-bottom: 0;
+    }
+
+    .camera::after {
+      right: 18px;
+      bottom: 18px;
+      border-left: 0;
+      border-top: 0;
+    }
+
+    .camera-bar {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      background: rgba(16, 35, 29, .88);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .hash {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+      color: #35443f;
+      background: #f1f5f1;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 10px;
+    }
+
+    .event {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: #fff;
+    }
+
+    .event strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .event span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .table th,
+    .table td {
+      text-align: left;
+      padding: 11px 9px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    .table th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .evidence-photo {
+      min-height: 280px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(rgba(20, 29, 24, .1), rgba(20, 29, 24, .16)),
+        repeating-linear-gradient(98deg, #7e9a60 0 44px, #a68b52 44px 78px, #496f44 78px 121px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .evidence-photo::after {
+      content: "Riparian buffer segment";
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      color: #fff;
+      background: rgba(16,35,29,.86);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .split-evidence {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .mini-photo {
+      min-height: 180px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(rgba(20,29,24,.1), rgba(20,29,24,.1)),
+        repeating-linear-gradient(100deg, #708d51 0 36px, #967040 36px 63px, #446f48 63px 98px);
+      position: relative;
+    }
+
+    .mini-photo.alt {
+      background:
+        linear-gradient(rgba(20,29,24,.1), rgba(20,29,24,.1)),
+        repeating-linear-gradient(82deg, #4f8a5d 0 42px, #6f9b73 42px 80px, #977545 80px 115px);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    input,
+    select,
+    textarea {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+      background: #fff;
+      color: var(--ink);
+      min-width: 0;
+    }
+
+    textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .tabs button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+    }
+
+    .tabs button.active {
+      border-color: #244b38;
+      color: #fff;
+      background: #244b38;
+    }
+
+    .progress {
+      height: 8px;
+      background: #e5ebe7;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 64%;
+      background: var(--field);
+    }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      background: #10231d;
+      color: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px 14px;
+      transform: translateY(120px);
+      transition: transform .18s ease;
+      z-index: 10;
+      max-width: min(360px, calc(100vw - 44px));
+      font-size: 14px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+    }
+
+    .flowbar {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .flowstep {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .flowstep.active {
+      border-color: #244b38;
+      color: var(--ink);
+      box-shadow: inset 0 -3px 0 #244b38;
+    }
+
+    @media (max-width: 1040px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+      }
+
+      .grid.two,
+      .grid.three,
+      .split-evidence {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .status-strip {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .main,
+      .sidebar {
+        padding: 16px;
+      }
+
+      .flowbar {
+        grid-template-columns: 1fr;
+      }
+
+      .phone {
+        border-width: 6px;
+        border-radius: 24px;
+      }
+
+      .metric-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <strong>FieldProof</strong>
+          <span>Decentralized farmland audits</span>
+        </div>
+      </div>
+
+      <div class="navlabel">Prototype Surfaces</div>
+      <nav class="nav" aria-label="Prototype sections">
+        <button class="active" data-view="auditor"><span class="icon">A</span>Auditor App</button>
+        <button data-view="public"><span class="icon">P</span>Public Dashboard</button>
+        <button data-view="landowner"><span class="icon">L</span>Landowner Portal</button>
+        <button data-view="validator"><span class="icon">V</span>Validator Review</button>
+        <button data-view="brand"><span class="icon">B</span>Brand Bounties</button>
+      </nav>
+
+      <div class="navlabel">Lifecycle Demo</div>
+      <div class="flowbar" style="grid-template-columns: 1fr;">
+        <div class="flowstep active" id="life-bounty">1. Bounty posted</div>
+        <div class="flowstep" id="life-capture">2. Evidence captured</div>
+        <div class="flowstep" id="life-sync">3. Synced on-chain</div>
+        <div class="flowstep" id="life-appeal">4. Appeal reviewed</div>
+        <div class="flowstep" id="life-final">5. Rewards paid</div>
+      </div>
+
+      <div class="sidebar-card">
+        <strong>Pilot Context</strong>
+        <p>Coffee farms in Chiapas, Mexico. Initial claim: riparian buffer degradation near waterways.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="title">
+          <h1 id="page-title">Auditor App</h1>
+          <p id="page-subtitle">Offline-first field capture for verified environmental evidence.</p>
+        </div>
+        <div class="status-strip">
+          <span class="pill good">Solana registry</span>
+          <span class="pill good">Arweave evidence</span>
+          <span class="pill warn" id="global-status">Audit pending sync</span>
+        </div>
+      </div>
+
+      <section class="view active" id="view-auditor">
+        <div class="grid two">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Mobile Auditor Flow</h2>
+                <p>Click through the phone to accept a bounty, capture evidence, and sync later.</p>
+              </div>
+              <span class="pill warn" id="phone-state">Offline</span>
+            </div>
+            <div class="phone-wrap">
+              <div class="phone" role="region" aria-label="Clickable mobile prototype">
+                <div class="phone-top"><span>09:42</span><span>FieldProof</span><span id="signal">Offline</span></div>
+
+                <div class="phone-screen active" id="phone-home">
+                  <div class="app-head">
+                    <h2>Good morning, Ana</h2>
+                    <p>3 bounties nearby. Map pack ready for Chiapas North.</p>
+                  </div>
+                  <div class="app-body">
+                    <div class="metric-row">
+                      <div class="metric"><span>Trust</span><strong>84</strong></div>
+                      <div class="metric"><span>Earnings</span><strong>$218</strong></div>
+                      <div class="metric"><span>Queued</span><strong id="queued-count">0</strong></div>
+                    </div>
+                    <div class="task">
+                      <div class="row">
+                        <span class="pill warn">Top bounty</span>
+                        <strong>$42.00</strong>
+                      </div>
+                      <h3>Finca El Roble</h3>
+                      <p>Verify waterway buffer condition for Northstar Coffee Co. Deadline: 48 hours.</p>
+                      <button class="btn full" data-phone="detail">Open audit</button>
+                    </div>
+                    <div class="task">
+                      <div class="row">
+                        <span class="pill good">Synced</span>
+                        <strong>$18.50</strong>
+                      </div>
+                      <h3>Cooperativa San Isidro</h3>
+                      <p>Shade-tree canopy check. Verified yesterday by 3 validators.</p>
+                    </div>
+                    <button class="btn secondary full" data-view="brand">View bounty marketplace</button>
+                  </div>
+                </div>
+
+                <div class="phone-screen" id="phone-detail">
+                  <div class="app-head">
+                    <h2>Finca El Roble</h2>
+                    <p>Coffee / Chiapas North / Parcel MX-CHP-1198</p>
+                  </div>
+                  <div class="app-body">
+                    <div class="map">
+                      <div class="river"></div>
+                      <div class="plot one"></div>
+                      <div class="plot two"></div>
+                      <div class="pin a"></div>
+                      <div class="map-label one"><strong>Target</strong>Waterway edge</div>
+                      <div class="map-label two">Offline tiles downloaded</div>
+                    </div>
+                    <div class="task">
+                      <h3>Audit checklist</h3>
+                      <p>Confirm riparian buffer width, visible erosion, tree cover, and recent clearing.</p>
+                      <div class="row">
+                        <button class="btn secondary" data-phone="home">Back</button>
+                        <button class="btn" data-phone="checklist">Accept bounty</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="phone-screen" id="phone-checklist">
+                  <div class="app-head">
+                    <h2>Field Checklist</h2>
+                    <p>Language: Spanish. Stored locally until sync.</p>
+                  </div>
+                  <div class="app-body">
+                    <div class="checklist">
+                      <div class="check-item done"><span class="box">✓</span><div><strong>GPS accuracy below 8m</strong><span>Locked at 16.7561, -92.6374</span></div></div>
+                      <div class="check-item done"><span class="box">✓</span><div><strong>Parcel boundary confirmed</strong><span>Offline vector tile matched local position</span></div></div>
+                      <div class="check-item"><span class="box"></span><div><strong>Capture waterway buffer</strong><span>Required: 2 verified photos</span></div></div>
+                      <div class="check-item"><span class="box"></span><div><strong>Record local notes</strong><span>Original text preserved with standardized fields</span></div></div>
+                    </div>
+                    <div style="height: 12px;"></div>
+                    <button class="btn full" data-phone="camera">Open verified camera</button>
+                  </div>
+                </div>
+
+                <div class="phone-screen" id="phone-camera">
+                  <div class="app-head">
+                    <h2>Verified Camera</h2>
+                    <p>No gallery upload. Device and GPS checks active.</p>
+                  </div>
+                  <div class="app-body">
+                    <div class="camera">
+                      <div class="camera-bar">
+                        <span>GPS 6.2m</span>
+                        <span>Attested</span>
+                        <span>Lens live</span>
+                      </div>
+                    </div>
+                    <div style="height: 12px;"></div>
+                    <button class="btn full" id="capture-btn">Capture evidence</button>
+                  </div>
+                </div>
+
+                <div class="phone-screen" id="phone-confirm">
+                  <div class="app-head">
+                    <h2>Evidence Sealed</h2>
+                    <p>Photo, metadata, and audit note are frozen locally.</p>
+                  </div>
+                  <div class="app-body">
+                    <div class="hash">sha256: 9f32b1c7e8a0f44d91c2a6b77f0d18e59af4e2c330a9bd76e6f2c18a4c12b908</div>
+                    <div style="height: 10px;"></div>
+                    <div class="checklist">
+                      <div class="check-item done"><span class="box">✓</span><div><strong>Timestamp</strong><span>2026-06-18 09:47 local</span></div></div>
+                      <div class="check-item done"><span class="box">✓</span><div><strong>GPS + boundary</strong><span>Within Finca El Roble parcel</span></div></div>
+                      <div class="check-item done"><span class="box">✓</span><div><strong>Device attestation</strong><span>Physical device check passed</span></div></div>
+                    </div>
+                    <div style="height: 12px;"></div>
+                    <label>Auditor notes
+                      <textarea>Hay degradacion visible cerca del arroyo. La franja de vegetacion parece menor de 10 metros.</textarea>
+                    </label>
+                    <div style="height: 12px;"></div>
+                    <button class="btn full" id="queue-btn">Save to offline queue</button>
+                  </div>
+                </div>
+
+                <div class="phone-screen" id="phone-queue">
+                  <div class="app-head">
+                    <h2>Offline Queue</h2>
+                    <p>Audit packet ready. Sync when connection returns.</p>
+                  </div>
+                  <div class="app-body">
+                    <div class="task">
+                      <div class="row"><span class="pill warn">Pending sync</span><strong>14.8 MB</strong></div>
+                      <h3>Finca El Roble</h3>
+                      <p>2 photos, checklist, Spanish notes, GPS trail, device proof, signed audit packet.</p>
+                      <div class="progress"><span></span></div>
+                    </div>
+                    <button class="btn full" id="sync-btn">Simulate connection and sync</button>
+                    <div style="height: 8px;"></div>
+                    <button class="btn secondary full" data-phone="home">Back home</button>
+                  </div>
+                </div>
+
+                <div class="phone-screen" id="phone-synced">
+                  <div class="app-head">
+                    <h2>Registered</h2>
+                    <p>Evidence is public, pending validation window.</p>
+                  </div>
+                  <div class="app-body">
+                    <div class="checklist">
+                      <div class="check-item done"><span class="box">✓</span><div><strong>Arweave URI</strong><span>ar://QmFieldProofRoble1198</span></div></div>
+                      <div class="check-item done"><span class="box">✓</span><div><strong>Solana transaction</strong><span>5uPc...9Qta confirmed</span></div></div>
+                      <div class="check-item done"><span class="box">✓</span><div><strong>Bounty escrow</strong><span>Locked until review window closes</span></div></div>
+                    </div>
+                    <div style="height: 12px;"></div>
+                    <button class="btn full" data-view="public">Open public record</button>
+                    <div style="height: 8px;"></div>
+                    <button class="btn secondary full" data-view="landowner">View landowner response</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Audit Packet</h3>
+                  <p>The prototype treats the blockchain as a registry, not a file host.</p>
+                </div>
+              </div>
+              <div class="panel-body">
+                <table class="table">
+                  <tbody>
+                    <tr><th>Farm</th><td>Finca El Roble / MX-CHP-1198</td></tr>
+                    <tr><th>Claim</th><td>Waterway buffer condition</td></tr>
+                    <tr><th>Storage</th><td>Photos and manifests on Arweave</td></tr>
+                    <tr><th>On-chain</th><td>Hash, URI, signatures, status, bounty</td></tr>
+                    <tr><th>Status</th><td><span class="pill warn" id="audit-packet-status">Pending sync</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Development Project Plan</h3>
+                  <p>Prototype to pilot roadmap.</p>
+                </div>
+              </div>
+              <div class="panel-body timeline">
+                <div class="event"><strong>1. Prototype validation</strong><span>Interview auditors, brands, landowners, validators.</span></div>
+                <div class="event"><strong>2. Offline capture MVP</strong><span>React Native, SQLite, MapLibre, photo hashing.</span></div>
+                <div class="event"><strong>3. Registry + storage</strong><span>Solana Anchor program plus Arweave evidence bundles.</span></div>
+                <div class="event"><strong>4. Appeals and rewards</strong><span>Bounty escrow, right of response, validator decisions.</span></div>
+                <div class="event"><strong>5. Pilot launch</strong><span>One crop, one region, one environmental claim.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-public">
+        <div class="grid two">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Public Farm Map</h2>
+                <p>Consumers, brands, journalists, and researchers can inspect verified records.</p>
+              </div>
+              <button class="btn secondary" data-view="auditor">Back to capture</button>
+            </div>
+            <div class="panel-body">
+              <div class="tabs">
+                <button class="active">Coffee</button>
+                <button>Chiapas</button>
+                <button>Verified</button>
+                <button>Under Appeal</button>
+              </div>
+              <div class="map large">
+                <div class="river"></div>
+                <div class="plot one"></div>
+                <div class="plot two"></div>
+                <div class="plot three"></div>
+                <div class="pin a"></div>
+                <div class="pin b"></div>
+                <div class="pin c"></div>
+                <div class="map-label one"><strong>Finca El Roble</strong><span id="public-map-label">Registered on-chain</span></div>
+                <div class="map-label two"><strong>Northstar Coffee Co.</strong>64% sourcing coverage</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Finca El Roble</h3>
+                  <p>Public audit profile for parcel MX-CHP-1198.</p>
+                </div>
+                <span class="pill warn" id="public-status">Under Appeal</span>
+              </div>
+              <div class="panel-body">
+                <div class="evidence-photo"></div>
+                <div style="height: 12px;"></div>
+                <table class="table">
+                  <tbody>
+                    <tr><th>Evidence URI</th><td>ar://QmFieldProofRoble1198</td></tr>
+                    <tr><th>Transaction</th><td>5uPc...9Qta</td></tr>
+                    <tr><th>Content integrity</th><td><span class="pill good">Hash verified</span></td></tr>
+                    <tr><th>Device proof</th><td><span class="pill good">Attested</span></td></tr>
+                    <tr><th>Appeal</th><td><span class="pill warn">Landowner response active</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Consumer QR Proof</h3>
+                  <p>Batch QR page for Northstar Coffee Co.</p>
+                </div>
+              </div>
+              <div class="panel-body">
+                <div class="task">
+                  <div class="row"><span class="pill good">Batch NC-8842</span><strong>64%</strong></div>
+                  <h3>Verified sourcing coverage</h3>
+                  <p>12 farms audited this season. 1 unresolved appeal. 3 farms need revisit.</p>
+                  <button class="btn full" data-view="brand">Open brand transparency</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-landowner">
+        <div class="grid two">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Landowner Portal</h2>
+                <p>Farm owners can add context or challenge a record with counter-evidence.</p>
+              </div>
+              <span class="pill warn">Response window open</span>
+            </div>
+            <div class="panel-body">
+              <div class="task">
+                <div class="row"><span class="pill bad">Adverse finding</span><strong>48h left</strong></div>
+                <h3>Riparian buffer degradation reported</h3>
+                <p>The audit reports visible degradation near the waterway on the north edge of the parcel.</p>
+              </div>
+
+              <div class="form-grid">
+                <label>Response type
+                  <select>
+                    <option>Context only</option>
+                    <option selected>Formal appeal with bond</option>
+                    <option>Request revisit</option>
+                  </select>
+                </label>
+                <label>Landowner statement
+                  <textarea>The photographed area is an access path damaged by a storm last week. The cooperative replanted the buffer yesterday and requests validator review with current counter-evidence.</textarea>
+                </label>
+                <label>Appeal bond
+                  <input value="$25.00 USDC">
+                </label>
+                <button class="btn warn" id="appeal-btn">Submit appeal package</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Farm Evidence Timeline</h3>
+                <p>Every state transition is public and inspectable.</p>
+              </div>
+            </div>
+            <div class="panel-body timeline">
+              <div class="event"><strong>Audit published</strong><span>Evidence registered by Ana Morales. Status: pending finalization.</span></div>
+              <div class="event"><strong>Right of response opened</strong><span>Finca El Roble notified via cooperative account.</span></div>
+              <div class="event"><strong id="appeal-event-title">Appeal not submitted yet</strong><span id="appeal-event-copy">Posting a bond routes the case to validator review.</span></div>
+              <div class="event"><strong>Possible outcomes</strong><span>Verified, overturned, or needs revisit.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-validator">
+        <div class="grid two">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Validator Review</h2>
+                <p>Experts compare field evidence, response evidence, and map context.</p>
+              </div>
+              <span class="pill warn">Case assigned</span>
+            </div>
+            <div class="panel-body">
+              <div class="split-evidence">
+                <div>
+                  <div class="mini-photo"></div>
+                  <div class="task">
+                    <h3>Auditor evidence</h3>
+                    <p>Buffer appears under 10m. GPS path aligns with north waterway edge.</p>
+                  </div>
+                </div>
+                <div>
+                  <div class="mini-photo alt"></div>
+                  <div class="task">
+                    <h3>Landowner response</h3>
+                    <p>Counter-evidence shows recent replanting after storm damage.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="checklist">
+                <div class="check-item done"><span class="box">✓</span><div><strong>Both evidence packets hash-match</strong><span>No tampering detected after capture.</span></div></div>
+                <div class="check-item done"><span class="box">✓</span><div><strong>Boundary match confirmed</strong><span>Both captures occurred inside target parcel.</span></div></div>
+                <div class="check-item"><span class="box"></span><div><strong>Decision needed</strong><span>Choose outcome and confidence.</span></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Decision</h3>
+                <p>Validator rewards unlock after quorum.</p>
+              </div>
+            </div>
+            <div class="panel-body form-grid">
+              <label>Outcome
+                <select id="decision-select">
+                  <option>Verified: original audit stands</option>
+                  <option selected>Needs revisit: condition changed after event</option>
+                  <option>Overturned: original audit invalid</option>
+                </select>
+              </label>
+              <label>Confidence
+                <input value="82%">
+              </label>
+              <label>Rationale
+                <textarea>Original evidence is valid, but counter-evidence plausibly shows storm damage and active restoration. Recommend a paid revisit before final brand scoring.</textarea>
+              </label>
+              <button class="btn" id="finalize-btn">Submit validator decision</button>
+              <div class="task">
+                <div class="row"><span class="pill good">Reward estimate</span><strong>$6.30</strong></div>
+                <p>Paid from validator pool after quorum and challenge window.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-brand">
+        <div class="grid two">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Brand Bounty Console</h2>
+                <p>Brands fund public audit coverage where trust is commercially valuable.</p>
+              </div>
+              <span class="pill good">Northstar Coffee Co.</span>
+            </div>
+            <div class="panel-body">
+              <div class="grid three">
+                <div class="metric"><span>Coverage</span><strong>64%</strong></div>
+                <div class="metric"><span>Open bounties</span><strong>18</strong></div>
+                <div class="metric"><span>Disputes</span><strong>1</strong></div>
+              </div>
+              <div style="height: 12px;"></div>
+              <table class="table">
+                <thead>
+                  <tr><th>Region</th><th>Claim</th><th>Budget</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Chiapas North</td><td>Waterway buffer</td><td>$2,400</td><td><span class="pill good">Active</span></td></tr>
+                  <tr><td>Chiapas East</td><td>Shade canopy</td><td>$1,200</td><td><span class="pill warn">Needs auditors</span></td></tr>
+                  <tr><td>Oaxaca Mixteca</td><td>Deforestation risk</td><td>$3,800</td><td><span class="pill">Draft</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Create Audit Bounty</h3>
+                <p>Fund the next batch of field checks.</p>
+              </div>
+            </div>
+            <div class="panel-body form-grid">
+              <label>Crop
+                <input value="Coffee">
+              </label>
+              <label>Region
+                <input value="Chiapas North, Mexico">
+              </label>
+              <label>Environmental claim
+                <select>
+                  <option selected>Riparian buffer health</option>
+                  <option>Shade-tree coverage</option>
+                  <option>Recent clearing risk</option>
+                </select>
+              </label>
+              <label>Reward per completed audit
+                <input value="$42.00 USDC">
+              </label>
+              <button class="btn" id="post-bounty-btn">Post bounty to escrow</button>
+              <button class="btn secondary" data-view="auditor">Send auditor to field</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const titles = {
+      auditor: ["Auditor App", "Offline-first field capture for verified environmental evidence."],
+      public: ["Public Dashboard", "Evidence-forward public records for farms, brands, and consumers."],
+      landowner: ["Landowner Portal", "Right of response and formal appeal flow for farm owners."],
+      validator: ["Validator Review", "Expert review for disputes, sampling, and finalization."],
+      brand: ["Brand Bounties", "A funding console that turns transparency demand into field audits."]
+    };
+
+    const navButtons = document.querySelectorAll("[data-view]");
+    const viewSections = document.querySelectorAll(".view");
+    const phoneScreens = document.querySelectorAll(".phone-screen");
+    const phoneButtons = document.querySelectorAll("[data-phone]");
+    const toast = document.getElementById("toast");
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(window.toastTimer);
+      window.toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function setView(name) {
+      viewSections.forEach(view => view.classList.toggle("active", view.id === "view-" + name));
+      document.querySelectorAll(".nav button").forEach(button => {
+        button.classList.toggle("active", button.dataset.view === name);
+      });
+      document.getElementById("page-title").textContent = titles[name][0];
+      document.getElementById("page-subtitle").textContent = titles[name][1];
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function setPhone(name) {
+      phoneScreens.forEach(screen => screen.classList.toggle("active", screen.id === "phone-" + name));
+    }
+
+    function setLifecycle(step) {
+      const order = ["bounty", "capture", "sync", "appeal", "final"];
+      const activeIndex = order.indexOf(step);
+      order.forEach((name, index) => {
+        const element = document.getElementById("life-" + name);
+        element.classList.toggle("active", index <= activeIndex);
+      });
+    }
+
+    navButtons.forEach(button => {
+      button.addEventListener("click", () => setView(button.dataset.view));
+    });
+
+    phoneButtons.forEach(button => {
+      button.addEventListener("click", () => setPhone(button.dataset.phone));
+    });
+
+    document.getElementById("capture-btn").addEventListener("click", () => {
+      setLifecycle("capture");
+      setPhone("confirm");
+      showToast("Evidence captured and sealed with GPS, timestamp, hash, and device proof.");
+    });
+
+    document.getElementById("queue-btn").addEventListener("click", () => {
+      document.getElementById("queued-count").textContent = "1";
+      document.getElementById("phone-state").textContent = "Queued";
+      setPhone("queue");
+      showToast("Audit packet saved locally. It can sync when connectivity returns.");
+    });
+
+    document.getElementById("sync-btn").addEventListener("click", () => {
+      setLifecycle("sync");
+      document.getElementById("phone-state").textContent = "Online";
+      document.getElementById("signal").textContent = "Online";
+      document.getElementById("global-status").textContent = "Registered on-chain";
+      document.getElementById("global-status").className = "pill good";
+      document.getElementById("audit-packet-status").textContent = "Registered on-chain";
+      document.getElementById("audit-packet-status").className = "pill good";
+      document.getElementById("queued-count").textContent = "0";
+      document.getElementById("public-map-label").textContent = "Registered on-chain";
+      setPhone("synced");
+      showToast("Synced to Arweave and Solana registry.");
+    });
+
+    document.getElementById("appeal-btn").addEventListener("click", () => {
+      setLifecycle("appeal");
+      document.getElementById("appeal-event-title").textContent = "Appeal submitted";
+      document.getElementById("appeal-event-copy").textContent = "Bond posted. Counter-evidence routed to validator quorum.";
+      document.getElementById("global-status").textContent = "Under appeal";
+      document.getElementById("global-status").className = "pill warn";
+      setView("validator");
+      showToast("Appeal package submitted to validator review.");
+    });
+
+    document.getElementById("finalize-btn").addEventListener("click", () => {
+      setLifecycle("final");
+      document.getElementById("global-status").textContent = "Needs revisit";
+      document.getElementById("global-status").className = "pill good";
+      document.getElementById("public-status").textContent = "Needs Revisit";
+      document.getElementById("public-status").className = "pill good";
+      setView("public");
+      showToast("Decision recorded. Auditor, validator, and revisit pools updated.");
+    });
+
+    document.getElementById("post-bounty-btn").addEventListener("click", () => {
+      setLifecycle("bounty");
+      showToast("Bounty posted to escrow for Chiapas North.");
+    });
+  </script>
+</body>
+</html>
