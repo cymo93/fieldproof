@@ -16,8 +16,8 @@ Recommended first wedge:
 
 - Crop: coffee
 - Region: Chiapas, Mexico
-- Product: QR proof pages plus verifier capture studio
-- Claim: origin, producer story, riparian health, soil cover, and regenerative practice baseline
+- Product: QR product story pages plus field visit app
+- Claim: origin, producer story, waterway health, soil cover, and regenerative practice baseline
 - Buyers: coffee brands and cooperatives
 
 ## Phase 1: Prototype Validation
@@ -31,7 +31,7 @@ Tasks:
 - Interview 3 sourcing, sustainability, or ESG buyers.
 - Interview 2 environmental science reviewers.
 - Test the clickable prototype with each group.
-- Identify the minimum evidence packet needed for trust.
+- Identify the minimum review packet needed for trust.
 
 Exit criteria:
 
@@ -46,10 +46,10 @@ Goal: produce build-ready technical specs.
 
 Deliverables:
 
-- Product proof page lifecycle.
-- Verifier capture workflow.
+- Product story page lifecycle.
+- Field visit workflow.
 - Evidence packet JSON schema.
-- Standards and scorecard template schema.
+- Standards-based checklist schema.
 - Farm registry schema.
 - Bounty escrow model.
 - Appeal bond model.
@@ -70,8 +70,8 @@ Build:
 - Offline map package download.
 - In-app camera only.
 - GPS and timestamp capture.
-- Standards-rooted shot list.
-- Scorecard and sample collection workflow.
+- Standards-based shot list.
+- Checklist and sample collection workflow.
 - Photo hash generation.
 - Encrypted SQLite audit queue.
 - Sync status and retry handling.
@@ -112,7 +112,7 @@ Build:
 - Evidence viewer.
 - Integrity badges.
 - Brand transparency pages.
-- Consumer QR proof pages.
+- Customer QR story pages.
 - Basic public API.
 
 ## Phase 6: Appeals And Validation

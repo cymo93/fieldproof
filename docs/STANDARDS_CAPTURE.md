@@ -1,10 +1,10 @@
-# Standards-Rooted Capture
+# Checklist-Based Field Visits
 
-FieldProof should let verifiers collect evidence against structured standards, scorecards, and claim frameworks without pretending every capture visit is a formal certification.
+FieldProof should let verifiers collect photos, notes, and measurements against practical checklists without pretending every field visit is a formal certification.
 
-## Why Standards Matter
+## Why Checklists Matter
 
-Field evidence becomes more valuable when it is mapped to recognized criteria.
+Field records become more valuable when they are tied to recognized standards or buyer requirements.
 
 Examples:
 
@@ -18,20 +18,20 @@ Examples:
 - Labor and community practices.
 - Lab sample chain of custody.
 
-This makes the same capture visit useful for:
+This makes the same field visit useful for:
 
-- Consumer proof pages.
+- Product story pages.
 - Brand marketing.
 - Producer records.
 - Internal improvement plans.
 - Certification preparation.
 - Compliance support.
 
-## Capture Modes
+## Field Visit Modes
 
-FieldProof should support levels of evidence:
+FieldProof should support different levels of review:
 
-### Story Capture
+### Story
 
 Marketing-grade media and producer narrative.
 
@@ -43,19 +43,19 @@ Outputs:
 - Producer quotes.
 - Farm story.
 
-### Practice Evidence
+### Field Check
 
 Structured observations mapped to a claim or standard.
 
 Outputs:
 
-- Scorecard answers.
+- Checklist answers.
 - Geotagged media.
 - Field notes.
 - Boundary context.
 - Verifier signature.
 
-### Measurement Evidence
+### Measurement
 
 Field measurements or sample collection.
 
@@ -65,30 +65,30 @@ Outputs:
 - Lab test requested.
 - Chain of custody.
 - Sampling location.
-- Photo evidence.
+- Photo record.
 - Result attachment.
 
-### Formal Verification Support
+### Formal Review Support
 
-Evidence packet exportable to a certifier, reviewer, or internal QA team.
+Review packet exportable to a certifier, reviewer, or internal QA team.
 
 Outputs:
 
-- Completed scorecard.
-- Evidence bundle.
+- Completed checklist.
+- Photo and notes bundle.
 - Exceptions.
 - Corrective actions.
 - Reviewer decision.
 
-## Standards Library
+## Checklist Library
 
 The product should eventually support templates inspired by or mapped to:
 
-- Regenerative agriculture scorecards.
+- Regenerative agriculture checklists.
 - Regenerative Organic Certified pillars.
 - Rainforest Alliance farm requirements.
 - Organic inspection preparation.
-- EUDR geolocation and deforestation-risk evidence.
+- EUDR geolocation and deforestation-risk records.
 - Custom brand or cooperative protocols.
 
 Important: FieldProof should not imply endorsement by a standard owner unless there is a partnership or license.
@@ -97,15 +97,14 @@ Important: FieldProof should not imply endorsement by a standard owner unless th
 
 The verifier should not feel like they are filling out a sterile compliance database.
 
-The capture UX should guide them through a field story:
+The app should guide them through a field story:
 
 1. Establish place.
 2. Establish producer consent.
-3. Capture landscape context.
-4. Capture practice evidence.
-5. Capture measurements or samples.
-6. Capture human story.
+3. Record landscape context.
+4. Check farm practices.
+5. Record measurements or samples.
+6. Capture the human story.
 7. Mark claims as supported, unsupported, or needs review.
 
-The result should be both credible and emotionally compelling.
-
+The result should be useful, honest, and emotionally compelling.

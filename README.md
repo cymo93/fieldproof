@@ -1,25 +1,25 @@
 # FieldProof
 
-Open-source infrastructure for farm proof pages, verifier capture, and regenerative sourcing evidence.
+Open-source tools for showing where food came from and how farm claims were checked.
 
-FieldProof helps brands, producers, field verifiers, and consumers turn credible farm visits into public proof pages and reusable marketing assets. The goal is to lower the cost of trust while making beautiful, science-rooted evidence of good farming easier to capture, inspect, and share.
+FieldProof helps brands, producers, and field verifiers turn farm visits into product story pages, useful photos and clips, and clear review notes. The goal is simple: help customers see the people, places, and checks behind the food they buy.
 
-The first prototype focuses on specialty coffee: QR proof pages for product batches, a verifier capture studio, and standards-rooted scorecards for field evidence.
+The first prototype focuses on specialty coffee: QR product stories, a field visit app, and practical checklists for farm photos, notes, and samples.
 
 ## Why This Exists
 
-Environmental claims about farmland are often locked inside private audits, brand PDFs, certification portals, or scattered marketing folders. That makes the data expensive to produce, hard to verify, and difficult for consumers to understand.
+Farm claims are often locked inside private audits, brand PDFs, certification portals, or scattered marketing folders. That makes them expensive to produce, hard to check, and difficult for customers to understand.
 
 FieldProof is designed around a different model:
 
-- Brands create product proof pages tied to packaging QR codes.
-- Verifiers capture media, observations, and measurements in the field.
-- Capture flows are rooted in standards, scorecards, and evidence requirements.
+- Brands create product story pages tied to packaging QR codes.
+- Field verifiers collect photos, clips, notes, and measurements.
+- Field visits follow practical checklists based on standards and buyer needs.
 - Producers retain context, consent, and response rights.
-- Consumers see clear claim levels instead of vague badges.
-- Evidence packets can later support certification, compliance, and decentralized registries.
+- Customers see clear labels instead of vague green badges.
+- Review packets can later support certification, compliance, and open registries.
 
-This does not claim that a proof page or blockchain entry proves physical truth by itself. The system creates structured evidence trails, transparent claim levels, and a practical path from story capture to formal verification support.
+This does not claim that a web page or blockchain entry proves physical truth by itself. FieldProof helps people collect better records, show exactly what was checked, and avoid saying more than the evidence supports.
 
 ## Current Status
 
@@ -31,18 +31,18 @@ Open the prototype:
 
 Prototype surfaces:
 
-- Consumer product proof page
-- Verifier capture studio
-- Standards and scorecard library
-- Brand asset library
-- Brand proof-page console
+- Customer product story
+- Field visit app
+- Farm checklists
+- Photos and clips library
+- Brand dashboard
 
 ## Product Principles
 
-- Science-rooted field capture.
-- Beautiful media with credible evidence underneath.
-- Clear claim levels: story, self-attested, field-evidenced, lab-supported, verified, disputed.
-- Offline-first verifier workflows.
+- Plain-language product stories.
+- Beautiful farm media with the field notes behind it.
+- Clear status labels: story, self-reported, checked in the field, lab results attached, reviewed by a third party, disputed.
+- Offline-first field visit workflows.
 - Open schemas and portable audit packets.
 - Producer consent and right of response.
 - Human review for serious physical-world claims.
@@ -56,9 +56,9 @@ The project is intentionally being opened early so people can shape it before th
 High-value contribution areas:
 
 - Field audit workflow design.
-- Regenerative agriculture standards and scorecards.
+- Farm standards and practical checklists.
 - Offline-first mobile engineering.
-- Product proof pages and consumer UX.
+- Product story pages and customer UX.
 - Evidence packet schemas.
 - Decentralized storage and registry research.
 - Mapping and farm boundary data.

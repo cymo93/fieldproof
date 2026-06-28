@@ -18,6 +18,10 @@
       --sun: #d7a642;
       --berry: #9f4a3c;
       --radius: 8px;
+      --space-1: 8px;
+      --space-2: 12px;
+      --space-3: 16px;
+      --space-4: 24px;
       --shadow: 0 18px 48px rgba(25, 39, 33, .14);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -36,7 +40,7 @@
     .sidebar {
       background: #10231d;
       color: #edf7f0;
-      padding: 24px;
+      padding: var(--space-4);
       position: sticky;
       top: 0;
       height: 100vh;
@@ -47,7 +51,7 @@
       display: flex;
       gap: 12px;
       align-items: center;
-      margin-bottom: 28px;
+      margin-bottom: var(--space-4);
     }
 
     .mark {
@@ -68,7 +72,7 @@
       text-transform: uppercase;
       letter-spacing: .08em;
       font-size: 11px;
-      margin: 24px 0 10px;
+      margin: var(--space-4) 0 var(--space-2);
     }
 
     .nav button {
@@ -76,14 +80,14 @@
       min-height: 42px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: var(--space-2);
       border: 1px solid transparent;
       border-radius: var(--radius);
       background: transparent;
       color: #edf7f0;
       text-align: left;
-      padding: 10px;
-      margin-bottom: 5px;
+      padding: 10px 12px;
+      margin-bottom: 6px;
     }
 
     .nav button.active,
@@ -96,20 +100,20 @@
       border: 1px solid rgba(255,255,255,.16);
       background: rgba(255,255,255,.07);
       border-radius: var(--radius);
-      padding: 14px;
+      padding: var(--space-3);
       color: #c9d8d0;
       line-height: 1.45;
       font-size: 13px;
     }
 
-    .main { min-width: 0; padding: 24px; }
+    .main { min-width: 0; padding: var(--space-4); }
 
     .topbar {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
     }
 
     h1, h2, h3 { margin: 0; letter-spacing: 0; }
@@ -118,6 +122,13 @@
     h3 { font-size: 15px; }
     p { color: var(--muted); line-height: 1.5; }
     .topbar p { margin: 6px 0 0; }
+
+    .topbar > div:last-child {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+      justify-content: flex-end;
+    }
 
     .pill {
       display: inline-flex;
@@ -144,7 +155,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .grid { display: grid; gap: 16px; }
+    .grid { display: grid; gap: var(--space-3); }
     .grid.two { grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); }
     .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
@@ -156,15 +167,15 @@
     }
 
     .panel-head {
-      padding: 16px 16px 0;
+      padding: var(--space-3) var(--space-3) 0;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 12px;
+      gap: var(--space-2);
     }
 
-    .panel-head p { margin: 5px 0 0; font-size: 13px; }
-    .panel-body { padding: 16px; }
+    .panel-head p { margin: 6px 0 0; font-size: 13px; }
+    .panel-body { padding: var(--space-3); }
 
     .hero-proof {
       min-height: 380px;
@@ -197,7 +208,7 @@
       background: rgba(16,35,29,.9);
       color: #fff;
       border-radius: var(--radius);
-      padding: 16px;
+      padding: var(--space-3);
     }
 
     .proof-overlay p { color: #d9e9df; margin: 6px 0 0; }
@@ -225,25 +236,25 @@
     .stat-row {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
+      gap: var(--space-2);
     }
 
     .stat {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 12px;
+      padding: 14px;
       background: #fff;
     }
 
     .stat span { display: block; color: var(--muted); font-size: 12px; }
     .stat strong { display: block; margin-top: 4px; font-size: 20px; }
 
-    .timeline { display: grid; gap: 10px; }
+    .timeline { display: grid; gap: var(--space-2); }
     .event {
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: #fff;
-      padding: 12px;
+      padding: 14px;
     }
     .event p { margin: 4px 0 0; font-size: 13px; }
 
@@ -273,9 +284,9 @@
 
     .phone-screen { display: none; flex: 1; min-height: 0; flex-direction: column; }
     .phone-screen.active { display: flex; }
-    .app-head { background: #fff; border-bottom: 1px solid var(--line); padding: 16px; }
-    .app-head p { margin: 4px 0 0; font-size: 13px; }
-    .app-body { padding: 14px; overflow: auto; flex: 1; }
+    .app-head { background: #fff; border-bottom: 1px solid var(--line); padding: var(--space-3); }
+    .app-head p { margin: 6px 0 0; font-size: 13px; }
+    .app-body { padding: var(--space-3); overflow: auto; flex: 1; }
 
     .capture-scene {
       min-height: 250px;
@@ -305,12 +316,12 @@
       display: grid;
       grid-template-columns: 28px 1fr auto;
       align-items: start;
-      gap: 10px;
+      gap: var(--space-2);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: #fff;
-      padding: 10px;
-      margin-bottom: 8px;
+      padding: var(--space-2);
+      margin-bottom: var(--space-2);
     }
 
     .box {
@@ -329,7 +340,7 @@
     .asset-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
+      gap: var(--space-2);
     }
 
     .asset {
@@ -357,7 +368,7 @@
     }
 
     .table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .table th, .table td { text-align: left; border-bottom: 1px solid var(--line); padding: 10px 8px; vertical-align: top; }
+    .table th, .table td { text-align: left; border-bottom: 1px solid var(--line); padding: 12px 8px; vertical-align: top; }
     .table th { color: var(--muted); font-size: 12px; width: 34%; }
 
     .map {
@@ -420,7 +431,7 @@
       box-shadow: 0 8px 22px rgba(25,39,33,.14);
     }
 
-    .form-grid { display: grid; gap: 10px; }
+    .form-grid { display: grid; gap: var(--space-2); }
     label { display: grid; gap: 6px; color: var(--muted); font-size: 12px; }
     input, select, textarea {
       border: 1px solid var(--line);
@@ -454,6 +465,7 @@
       .sidebar { height: auto; position: static; }
       .grid.two, .grid.three, .asset-grid { grid-template-columns: 1fr; }
       .topbar { flex-direction: column; }
+      .topbar > div:last-child { justify-content: flex-start; }
     }
 
     @media (max-width: 640px) {
@@ -469,36 +481,36 @@
       <div class="brand">
         <div class="mark" aria-hidden="true"></div>
         <div>
-          <strong>FieldProof Studio</strong>
-          <span>Farm proof pages + verifier capture</span>
+          <strong>FieldProof</strong>
+          <span>Farm stories customers can trust</span>
         </div>
       </div>
 
-      <div class="navlabel">Product Surfaces</div>
+      <div class="navlabel">Tools</div>
       <nav class="nav">
-        <button class="active" data-view="proof">Proof Page</button>
-        <button data-view="capture">Verifier Capture</button>
-        <button data-view="standards">Standards Library</button>
-        <button data-view="assets">Asset Library</button>
-        <button data-view="brand">Brand Console</button>
+        <button class="active" data-view="proof">Product Story</button>
+        <button data-view="capture">Field Visit App</button>
+        <button data-view="standards">Checklists</button>
+        <button data-view="assets">Photos & Clips</button>
+        <button data-view="brand">Brand Dashboard</button>
       </nav>
 
       <div class="navlabel">Strategy</div>
       <div class="side-note">
-        Start where money and distribution already exist: brands with packaging, origin stories, and consumers who will scan a QR code when the proof is beautiful and credible.
+        Start where distribution already exists: brands with packaging, farm relationships, and customers who will scan a QR code when the story is clear and believable.
       </div>
     </aside>
 
     <main class="main">
       <div class="topbar">
         <div>
-          <h1 id="page-title">Consumer Proof Page</h1>
-          <p id="page-subtitle">The QR destination that turns verified farm media into consumer trust.</p>
+          <h1 id="page-title">Product Story</h1>
+          <p id="page-subtitle">The page customers see after they scan a bag, bottle, or box.</p>
         </div>
         <div>
           <span class="pill good">Coffee pilot</span>
-          <span class="pill warn">Field-evidenced</span>
-          <span class="pill dark">Science-rooted</span>
+          <span class="pill warn">Checked in the field</span>
+          <span class="pill dark">Proof you can see</span>
         </div>
       </div>
 
@@ -507,8 +519,8 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>QR Product Proof</h2>
-                <p>What a consumer sees after scanning a bag of coffee.</p>
+                <h2>Scan The Bag</h2>
+                <p>A plain-language page for shoppers, retail buyers, and wholesale customers.</p>
               </div>
               <span class="pill good">Public</span>
             </div>
@@ -517,7 +529,7 @@
                 <div class="proof-overlay">
                   <span class="pill good">Batch NC-8842</span>
                   <h1>Northstar Coffee from Finca El Roble</h1>
-                  <p>Shade-grown coffee from Chiapas with field-evidenced waterway protection, soil cover, and producer story media captured June 2026.</p>
+                  <p>Shade-grown coffee from Chiapas with recent field photos, producer notes, waterway checks, soil cover observations, and sample IDs from June 2026.</p>
                 </div>
               </div>
             </div>
@@ -527,28 +539,28 @@
             <div class="panel">
               <div class="panel-head">
                 <div>
-                  <h2>Trust Snapshot</h2>
-                  <p>Clear claim levels instead of vague badges.</p>
+                  <h2>What We Checked</h2>
+                  <p>Specific checks, plain labels, and no vague green promises.</p>
                 </div>
               </div>
               <div class="panel-body">
                 <div class="stat-row">
                   <div class="stat"><span>Origin</span><strong>Verified</strong></div>
-                  <div class="stat"><span>Practices</span><strong>Field</strong></div>
-                  <div class="stat"><span>Lab data</span><strong>Pending</strong></div>
+                  <div class="stat"><span>Farm practices</span><strong>Checked</strong></div>
+                  <div class="stat"><span>Lab results</span><strong>Pending</strong></div>
                 </div>
                 <div style="height: 12px;"></div>
                 <table class="table">
                   <tbody>
                     <tr><th>Producer</th><td>Finca El Roble, Chiapas, Mexico</td></tr>
-                    <tr><th>Verification visit</th><td>June 18, 2026 by Ana Morales</td></tr>
-                    <tr><th>Evidence</th><td>18 photos, 4 short clips, 2 soil samples, scorecard notes</td></tr>
-                    <tr><th>Claim status</th><td><span class="pill warn">Field-evidenced, reviewer pending</span></td></tr>
-                    <tr><th>Consumer action</th><td>Save origin, share story, ask brand for next verification</td></tr>
+                    <tr><th>Field visit</th><td>June 18, 2026 by Ana Morales</td></tr>
+                    <tr><th>What was collected</th><td>18 photos, 4 short clips, 2 soil samples, checklist notes</td></tr>
+                    <tr><th>Status</th><td><span class="pill warn">Checked in the field, reviewer pending</span></td></tr>
+                    <tr><th>Customer action</th><td>Save the origin, share the story, or ask for the next farm update</td></tr>
                   </tbody>
                 </table>
                 <div style="height: 12px;"></div>
-                <button class="btn full" data-view="capture">Show how this was captured</button>
+                <button class="btn full" data-view="capture">Show the field visit</button>
               </div>
             </div>
           </div>
@@ -560,66 +572,66 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Verifier Capture Studio</h2>
-                <p>Guided field workflow for credible evidence and compelling media.</p>
+                <h2>Field Visit App</h2>
+                <p>A guided phone app for collecting trustworthy farm photos, notes, and samples.</p>
               </div>
               <span class="pill warn" id="capture-state">Offline ready</span>
             </div>
             <div class="panel-body phone-wrap">
               <div class="phone">
-                <div class="phone-top"><span>10:18</span><span>Capture Studio</span><span>Offline</span></div>
+                <div class="phone-top"><span>10:18</span><span>Field Visit</span><span>Offline</span></div>
 
                 <div class="phone-screen active" id="phone-plan">
                   <div class="app-head">
                     <h2>Finca El Roble Visit</h2>
-                    <p>Protocol: Coffee Origin Proof + Regen Practice Baseline</p>
+                    <p>Visit plan: Coffee origin story + farm practice check</p>
                   </div>
                   <div class="app-body">
                     <div class="score-item">
                       <span class="box">1</span>
-                      <div><strong>Establish place</strong><p>Farm boundary, landscape context, producer consent.</p></div>
+                      <div><strong>Confirm the place</strong><p>Farm boundary, landscape context, producer consent.</p></div>
                       <span class="pill good">Ready</span>
                     </div>
                     <div class="score-item">
                       <span class="box">2</span>
-                      <div><strong>Practice evidence</strong><p>Ground cover, riparian buffer, shade canopy, erosion risk.</p></div>
+                      <div><strong>Check farm practices</strong><p>Ground cover, waterway buffer, shade canopy, erosion risk.</p></div>
                       <span class="pill warn">4 shots</span>
                     </div>
                     <div class="score-item">
                       <span class="box">3</span>
-                      <div><strong>Measurements</strong><p>Soil sample ID, infiltration photo, lab chain of custody.</p></div>
+                      <div><strong>Record measurements</strong><p>Soil sample ID, infiltration photo, lab handoff notes.</p></div>
                       <span class="pill warn">2 tasks</span>
                     </div>
                     <div class="score-item">
                       <span class="box">4</span>
-                      <div><strong>Producer story</strong><p>Interview clip, portrait, practice explanation.</p></div>
+                      <div><strong>Capture the human story</strong><p>Interview clip, portrait, practice explanation.</p></div>
                       <span class="pill">Optional</span>
                     </div>
-                    <button class="btn full" data-phone="camera">Start guided capture</button>
+                    <button class="btn full" data-phone="camera">Start the visit</button>
                   </div>
                 </div>
 
                 <div class="phone-screen" id="phone-camera">
                   <div class="app-head">
                     <h2>Shot 2 of 8</h2>
-                    <p>Riparian buffer condition, north waterway edge.</p>
+                    <p>Waterway buffer, north edge of the farm.</p>
                   </div>
                   <div class="app-body">
                     <div class="capture-scene"></div>
                     <div style="height: 12px;"></div>
                     <div class="score-item">
                       <span class="box">✓</span>
-                      <div><strong>Evidence requirements</strong><p>Wide context, ground detail, visible waterway, GPS under 8m.</p></div>
+                      <div><strong>Before you move on</strong><p>Wide view, ground detail, visible waterway, GPS under 8m.</p></div>
                       <span class="pill good">Met</span>
                     </div>
-                    <button class="btn full" id="capture-btn">Capture proof asset</button>
+                    <button class="btn full" id="capture-btn">Save photo and notes</button>
                   </div>
                 </div>
 
                 <div class="phone-screen" id="phone-sample">
                   <div class="app-head">
                     <h2>Soil Sample</h2>
-                    <p>Measurement evidence for lab-supported claims.</p>
+                    <p>Sample details for claims that need lab results.</p>
                   </div>
                   <div class="app-body form-grid">
                     <label>Sample ID
@@ -633,35 +645,35 @@
                     </label>
                     <div class="score-item">
                       <span class="box">✓</span>
-                      <div><strong>Chain of custody</strong><p>Sample bag photo, GPS point, verifier signature attached.</p></div>
+                      <div><strong>Sample handoff</strong><p>Sample bag photo, GPS point, verifier signature attached.</p></div>
                       <span class="pill good">Logged</span>
                     </div>
-                    <button class="btn full" id="finish-capture-btn">Finish visit packet</button>
+                    <button class="btn full" id="finish-capture-btn">Finish field visit</button>
                   </div>
                 </div>
 
                 <div class="phone-screen" id="phone-done">
                   <div class="app-head">
                     <h2>Visit Packet Ready</h2>
-                    <p>Stored locally until sync.</p>
+                    <p>Saved on the phone until there is a signal.</p>
                   </div>
                   <div class="app-body">
                     <div class="score-item">
                       <span class="box">✓</span>
-                      <div><strong>Media assets</strong><p>18 photos and 4 clips cleared for brand review.</p></div>
+                      <div><strong>Photos and clips</strong><p>18 photos and 4 clips ready for brand review.</p></div>
                       <span class="pill good">Done</span>
                     </div>
                     <div class="score-item">
                       <span class="box">✓</span>
-                      <div><strong>Scorecard</strong><p>31 answers mapped to Coffee Origin Proof baseline.</p></div>
+                      <div><strong>Checklist</strong><p>31 answers mapped to the coffee origin visit plan.</p></div>
                       <span class="pill good">Done</span>
                     </div>
                     <div class="score-item">
                       <span class="box">✓</span>
-                      <div><strong>Lab samples</strong><p>2 samples logged with chain of custody.</p></div>
+                      <div><strong>Lab samples</strong><p>2 samples logged with handoff notes.</p></div>
                       <span class="pill warn">Pending lab</span>
                     </div>
-                    <button class="btn full" data-view="assets">Send to brand review</button>
+                    <button class="btn full" data-view="assets">Send for review</button>
                   </div>
                 </div>
               </div>
@@ -671,15 +683,15 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Capture Philosophy</h2>
-                <p>The verifier does skilled fieldwork, not generic content collection.</p>
+                <h2>Why This Works</h2>
+                <p>The field verifier collects useful proof and useful content in the same visit.</p>
               </div>
             </div>
             <div class="panel-body timeline">
-              <div class="event"><strong>Science first</strong><p>Every beautiful asset is connected to a claim, protocol, location, and evidence requirement.</p></div>
-              <div class="event"><strong>Marketing-ready</strong><p>The same visit produces usable imagery, captions, producer quotes, and product-page copy.</p></div>
-              <div class="event"><strong>Truthful claim levels</strong><p>Distinguish story, field observation, lab-supported result, and third-party verification.</p></div>
-              <div class="event"><strong>Producer dignity</strong><p>Consent, context, and response rights are built into the visit packet.</p></div>
+              <div class="event"><strong>Show the check</strong><p>Every photo is tied to a place, a checklist item, and a reason it was collected.</p></div>
+              <div class="event"><strong>Ready to use</strong><p>The same visit produces imagery, captions, producer quotes, and product-page copy.</p></div>
+              <div class="event"><strong>Say only what you know</strong><p>Separate story, field check, lab result, and third-party review.</p></div>
+              <div class="event"><strong>Respect the producer</strong><p>Consent, context, and response rights are part of the visit.</p></div>
             </div>
           </div>
         </div>
@@ -690,19 +702,19 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Standards And Scorecards</h2>
-                <p>Reusable capture templates mapped to credible criteria.</p>
+                <h2>Checklists</h2>
+                <p>Reusable field visit plans based on real standards and buyer needs.</p>
               </div>
-              <span class="pill dark">Credibility engine</span>
+              <span class="pill dark">Trust layer</span>
             </div>
             <div class="panel-body">
               <table class="table">
                 <tbody>
-                  <tr><th>Coffee Origin Proof</th><td><span class="pill good">Active</span> Origin, farm story, producer consent, GPS media, batch linkage.</td></tr>
-                  <tr><th>Regenerative Baseline</th><td><span class="pill warn">Draft</span> Soil cover, biodiversity, water, inputs, grazing/crop management, lab samples.</td></tr>
-                  <tr><th>Riparian Health</th><td><span class="pill good">Active</span> Buffer width, erosion, canopy, waterway condition, restoration evidence.</td></tr>
-                  <tr><th>EUDR Support</th><td><span class="pill warn">Draft</span> Geolocation, boundary evidence, deforestation-risk context, supplier declarations.</td></tr>
-                  <tr><th>Custom Brand Protocol</th><td><span class="pill">Configurable</span> Claim-specific requirements and reviewer gates.</td></tr>
+                  <tr><th>Coffee origin visit</th><td><span class="pill good">Active</span> Origin, farm story, producer consent, GPS photos, batch link.</td></tr>
+                  <tr><th>Regenerative baseline</th><td><span class="pill warn">Draft</span> Soil cover, biodiversity, water, inputs, management notes, lab samples.</td></tr>
+                  <tr><th>Waterway health</th><td><span class="pill good">Active</span> Buffer width, erosion, canopy, waterway condition, restoration photos.</td></tr>
+                  <tr><th>EUDR support</th><td><span class="pill warn">Draft</span> Geolocation, boundary proof, deforestation-risk context, supplier declarations.</td></tr>
+                  <tr><th>Custom brand checklist</th><td><span class="pill">Configurable</span> Buyer-specific checks and review steps.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -711,26 +723,26 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Scorecard Builder</h2>
-                <p>Turn a standard into a verifier-friendly field flow.</p>
+                <h2>Checklist Builder</h2>
+                <p>Turn a standard into simple steps a verifier can follow in the field.</p>
               </div>
             </div>
             <div class="panel-body form-grid">
-              <label>Claim
+              <label>What the brand wants to say
                 <input value="Riparian buffer is protected and actively restored">
               </label>
-              <label>Evidence required
+              <label>What the verifier needs to collect
                 <textarea>Wide landscape photo, waterway edge photo, ground cover close-up, buffer width estimate, producer explanation, optional soil/water sample.</textarea>
               </label>
-              <label>Claim level if complete
+              <label>Status if complete
                 <select>
                   <option>Story only</option>
-                  <option selected>Field-evidenced</option>
-                  <option>Lab-supported</option>
-                  <option>Third-party verified</option>
+                  <option selected>Checked in the field</option>
+                  <option>Lab results attached</option>
+                  <option>Reviewed by a third party</option>
                 </select>
               </label>
-              <button class="btn full" id="publish-template-btn">Publish capture template</button>
+              <button class="btn full" id="publish-template-btn">Publish checklist</button>
             </div>
           </div>
         </div>
@@ -741,8 +753,8 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Brand Asset Library</h2>
-                <p>Approved field media becomes usable proof, not a forgotten audit folder.</p>
+                <h2>Photos & Clips</h2>
+                <p>Approved field media becomes customer-facing content, not a forgotten audit folder.</p>
               </div>
               <span class="pill good">Ready for review</span>
             </div>
@@ -757,26 +769,26 @@
                 <tbody>
                   <tr><th>Usage rights</th><td>Approved for batch page, social, email, and wholesale deck.</td></tr>
                   <tr><th>Suggested caption</th><td>Finca El Roble maintains living ground cover and restores vegetation along the north waterway.</td></tr>
-                  <tr><th>Evidence link</th><td>Each asset retains GPS, timestamp, scorecard item, and verifier signature.</td></tr>
+                  <tr><th>Proof link</th><td>Each asset keeps its GPS point, timestamp, checklist item, and verifier signature.</td></tr>
                 </tbody>
               </table>
               <div style="height: 12px;"></div>
-              <button class="btn full" data-view="proof">Publish to proof page</button>
+              <button class="btn full" data-view="proof">Publish to product story</button>
             </div>
           </div>
 
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Reusable Outputs</h2>
+                <h2>One Visit, Many Uses</h2>
                 <p>One visit should create multiple economic artifacts.</p>
               </div>
             </div>
             <div class="panel-body timeline">
-              <div class="event"><strong>Consumer QR page</strong><p>Beautiful origin story with clear verification status.</p></div>
-              <div class="event"><strong>Retail content</strong><p>Short captions, media snippets, and buyer-facing proof.</p></div>
+              <div class="event"><strong>Product story page</strong><p>Beautiful origin story with a clear status.</p></div>
+              <div class="event"><strong>Retail content</strong><p>Short captions, media snippets, and buyer-facing proof points.</p></div>
               <div class="event"><strong>Producer profile</strong><p>Verification history that travels with the farm or co-op.</p></div>
-              <div class="event"><strong>Evidence export</strong><p>Structured packet for reviewers, certifiers, or compliance teams.</p></div>
+              <div class="event"><strong>Review packet</strong><p>Structured notes for reviewers, certifiers, or compliance teams.</p></div>
             </div>
           </div>
         </div>
@@ -787,15 +799,15 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Brand Console</h2>
-                <p>Where traction starts: proof pages tied to product batches and packaging.</p>
+                <h2>Brand Dashboard</h2>
+                <p>Where traction starts: product stories tied to batches and packaging.</p>
               </div>
               <span class="pill good">Northstar Coffee Co.</span>
             </div>
             <div class="panel-body">
               <div class="stat-row">
                 <div class="stat"><span>QR scans</span><strong>8,421</strong></div>
-                <div class="stat"><span>Proof pages</span><strong>12</strong></div>
+                <div class="stat"><span>Product stories</span><strong>12</strong></div>
                 <div class="stat"><span>Origins</span><strong>7</strong></div>
               </div>
               <div style="height: 12px;"></div>
@@ -811,8 +823,8 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Create Product Proof</h2>
-                <p>A brand buys the first loop because proof helps sell the product.</p>
+                <h2>Create Product Story</h2>
+                <p>A brand pays for the first loop because a trusted farm story helps sell the product.</p>
               </div>
             </div>
             <div class="panel-body form-grid">
@@ -822,17 +834,17 @@
               <label>Farm or cooperative
                 <input value="Finca El Roble">
               </label>
-              <label>Capture template
+              <label>Field visit checklist
                 <select>
-                  <option selected>Coffee Origin Proof + Regen Practice Baseline</option>
-                  <option>Riparian Health Visit</option>
+                  <option selected>Coffee origin story + farm practice check</option>
+                  <option>Waterway health visit</option>
                   <option>EUDR Support Visit</option>
                 </select>
               </label>
               <label>Verifier budget
                 <input value="$420">
               </label>
-              <button class="btn full" id="launch-visit-btn">Launch verifier visit</button>
+              <button class="btn full" id="launch-visit-btn">Start field visit</button>
             </div>
           </div>
         </div>
@@ -844,11 +856,11 @@
 
   <script>
     const titles = {
-      proof: ["Consumer Proof Page", "The QR destination that turns verified farm media into consumer trust."],
-      capture: ["Verifier Capture Studio", "Science-rooted field capture that produces credible proof and beautiful content."],
-      standards: ["Standards Library", "Reusable scorecards turn standards into guided capture workflows."],
-      assets: ["Asset Library", "Approved media, captions, and evidence packets for brands and producers."],
-      brand: ["Brand Console", "The first buyer surface: product proof pages tied to packaging and scans."]
+      proof: ["Product Story", "The page customers see after they scan a bag, bottle, or box."],
+      capture: ["Field Visit App", "A guided phone app for collecting trustworthy farm photos, notes, and samples."],
+      standards: ["Checklists", "Reusable field visit plans based on real standards and buyer needs."],
+      assets: ["Photos & Clips", "Approved media, captions, and review notes for brands and producers."],
+      brand: ["Brand Dashboard", "The first buyer surface: product stories tied to packaging and scans."]
     };
 
     const toast = document.getElementById("toast");
@@ -881,23 +893,23 @@
 
     document.getElementById("capture-btn").addEventListener("click", () => {
       setPhone("sample");
-      showToast("Proof asset captured with GPS, consent, scorecard mapping, and verifier signature.");
+      showToast("Photo and notes saved with GPS, consent, checklist item, and verifier signature.");
     });
 
     document.getElementById("finish-capture-btn").addEventListener("click", () => {
       setPhone("done");
-      document.getElementById("capture-state").textContent = "Visit packet ready";
+      document.getElementById("capture-state").textContent = "Visit ready";
       document.getElementById("capture-state").className = "pill good";
-      showToast("Visit packet ready for brand review and evidence export.");
+      showToast("Field visit ready for brand review and review export.");
     });
 
     document.getElementById("publish-template-btn").addEventListener("click", () => {
-      showToast("Capture template published to the standards library.");
+      showToast("Checklist published.");
     });
 
     document.getElementById("launch-visit-btn").addEventListener("click", () => {
       setView("capture");
-      showToast("Verifier visit launched for Finca El Roble.");
+      showToast("Field visit started for Finca El Roble.");
     });
   </script>
 </body>
