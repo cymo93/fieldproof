@@ -16,7 +16,8 @@ Recommended first wedge:
 
 - Crop: coffee
 - Region: Chiapas, Mexico
-- Claim: riparian buffer health near waterways
+- Product: QR proof pages plus verifier capture studio
+- Claim: origin, producer story, riparian health, soil cover, and regenerative practice baseline
 - Buyers: coffee brands and cooperatives
 
 ## Phase 1: Prototype Validation
@@ -45,8 +46,10 @@ Goal: produce build-ready technical specs.
 
 Deliverables:
 
-- Audit lifecycle state machine.
+- Product proof page lifecycle.
+- Verifier capture workflow.
 - Evidence packet JSON schema.
+- Standards and scorecard template schema.
 - Farm registry schema.
 - Bounty escrow model.
 - Appeal bond model.
@@ -67,6 +70,8 @@ Build:
 - Offline map package download.
 - In-app camera only.
 - GPS and timestamp capture.
+- Standards-rooted shot list.
+- Scorecard and sample collection workflow.
 - Photo hash generation.
 - Encrypted SQLite audit queue.
 - Sync status and retry handling.
@@ -145,4 +150,3 @@ Success metrics:
 - Brand willingness to pay.
 - Auditor earnings per day.
 - Consumer QR engagement.
-

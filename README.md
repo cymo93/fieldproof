@@ -1,67 +1,51 @@
 # FieldProof
 
-Open-source infrastructure for decentralized farmland audits.
+Open-source infrastructure for farm proof pages, verifier capture, and regenerative sourcing evidence.
 
-> Status: early prototype and project incubation. This is not production software, not a finished protocol, and not yet ready for real audit decisions.
+FieldProof helps brands, producers, field verifiers, and consumers turn credible farm visits into public proof pages and reusable marketing assets. The goal is to lower the cost of trust while making beautiful, science-rooted evidence of good farming easier to capture, inspect, and share.
 
-FieldProof helps communities, auditors, landowners, brands, and consumers create public, verifiable environmental evidence about farmland. The goal is to make trustworthy audit data cheap to collect, hard to tamper with, fair to dispute, and easy for anyone to inspect or self-host.
-
-The first prototype focuses on coffee farms in Chiapas, Mexico and a narrow audit claim: riparian buffer health near waterways.
+The first prototype focuses on specialty coffee: QR proof pages for product batches, a verifier capture studio, and standards-rooted scorecards for field evidence.
 
 ## Why This Exists
 
-Environmental claims about farmland are often locked inside private audits, brand PDFs, or centralized databases. That makes the data expensive to produce, hard to verify, and easy to lose.
+Environmental claims about farmland are often locked inside private audits, brand PDFs, certification portals, or scattered marketing folders. That makes the data expensive to produce, hard to verify, and difficult for consumers to understand.
 
 FieldProof is designed around a different model:
 
-- Auditors capture evidence offline in the field.
-- Evidence files are stored on decentralized storage.
-- Hashes, signatures, audit status, bounties, and appeals are recorded on-chain.
-- Landowners have a right to respond or appeal.
-- Validators review disputed or sampled audits.
-- Brands and consumers fund more public audit coverage.
+- Brands create product proof pages tied to packaging QR codes.
+- Verifiers capture media, observations, and measurements in the field.
+- Capture flows are rooted in standards, scorecards, and evidence requirements.
+- Producers retain context, consent, and response rights.
+- Consumers see clear claim levels instead of vague badges.
+- Evidence packets can later support certification, compliance, and decentralized registries.
 
-This does not claim that blockchain proves physical truth by itself. The system creates tamper-resistant evidence trails, transparent dispute processes, and public confidence scores.
+This does not claim that a proof page or blockchain entry proves physical truth by itself. The system creates structured evidence trails, transparent claim levels, and a practical path from story capture to formal verification support.
 
 ## Current Status
 
-This repository currently contains a clickable prototype and project planning docs.
-
-What exists today:
-
-- A static clickable prototype.
-- Early architecture and project planning docs.
-- Contribution and governance scaffolding.
-
-What does not exist yet:
-
-- Production mobile app.
-- Smart contracts.
-- Decentralized storage integration.
-- Real device attestation.
-- Real audit validation process.
-- Security review.
+This repository currently contains clickable prototypes and project planning docs.
 
 Open the prototype:
 
-[outputs/farmland-audit-prototype.html](outputs/farmland-audit-prototype.html)
+[outputs/fieldproof-studio-prototype.html](outputs/fieldproof-studio-prototype.html)
 
 Prototype surfaces:
 
-- Mobile auditor app
-- Public farm dashboard
-- Landowner appeal portal
-- Validator review interface
-- Brand bounty console
+- Consumer product proof page
+- Verifier capture studio
+- Standards and scorecard library
+- Brand asset library
+- Brand proof-page console
 
 ## Product Principles
 
-- Offline-first fieldwork.
-- Evidence-first public records.
-- No raw image data on-chain.
+- Science-rooted field capture.
+- Beautiful media with credible evidence underneath.
+- Clear claim levels: story, self-attested, field-evidenced, lab-supported, verified, disputed.
+- Offline-first verifier workflows.
 - Open schemas and portable audit packets.
-- Landowner right of response.
-- Human review for disputed physical-world claims.
+- Producer consent and right of response.
+- Human review for serious physical-world claims.
 - Low-cost self-hosting.
 - Public-good governance over platform lock-in.
 
@@ -72,10 +56,11 @@ The project is intentionally being opened early so people can shape it before th
 High-value contribution areas:
 
 - Field audit workflow design.
+- Regenerative agriculture standards and scorecards.
 - Offline-first mobile engineering.
-- Solana program design.
+- Product proof pages and consumer UX.
 - Evidence packet schemas.
-- Decentralized storage research.
+- Decentralized storage and registry research.
 - Mapping and farm boundary data.
 - Environmental science review.
 - Data ethics and governance.
@@ -94,6 +79,8 @@ MVP stack:
 - Indexer/API: lightweight event indexer
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+See [docs/STRATEGY.md](docs/STRATEGY.md) for the current product wedge.
 
 ## Roadmap
 
